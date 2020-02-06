@@ -14,6 +14,64 @@ class MyApp extends StatelessWidget {
         appBar: new AppBar(
           title: new Text('ashish'),
         ),
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              Container(height: 200, child: MyStatefulWidget()),
+              Container(child: new Text('Developed by Ashish Thapa')),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  MyStatefulWidget({Key key}) : super(key: key);
+
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  TextEditingController _controller;
+
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextField(
+          controller: _controller,
+          onSubmitted: (String value) async {
+            await showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Thanks!'),
+                  content: Text('You typed "$value".'),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
